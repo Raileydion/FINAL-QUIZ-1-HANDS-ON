@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CABILDO - FINAL QUIZ 1 HANDS-ON</title>
   <style>
-    /* General Styles */
     body {
       margin: 0;
       padding: 0;
@@ -18,7 +17,6 @@
       color: #333;
     }
 
-    /* Card Container */
     .card {
       background: #fff;
       width: 400px;
@@ -34,7 +32,6 @@
       color: #333;
     }
 
-    /* Input Fields */
     input[type="text"], 
     input[type="password"] {
       width: 100%;
@@ -54,7 +51,6 @@
       outline: none;
     }
 
-    /* Buttons */
     button {
       background: #764ba2;
       color: #fff;
@@ -71,7 +67,6 @@
       background: #667eea;
     }
 
-    /* Secondary button */
     .btn-secondary {
       background: #ddd;
       color: #333;
@@ -82,14 +77,13 @@
       background: #bbb;
     }
 
-    /* Strings List */
     #strings-list {
-      text-align: left;
+      text-align: center;
       margin-top: 20px;
     }
 
     #strings-list p {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: bold;
       background: #f4f4f9;
       color: #444;
@@ -98,23 +92,12 @@
       margin-bottom: 15px;
       border: 1px solid #ddd;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      display: inline-block;
     }
 
-    /* Footer */
-    .footer {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #666;
-    }
-
-    .footer a {
-      color: #764ba2;
-      text-decoration: none;
-    }
   </style>
 </head>
 <body>
-  <!-- Login Page -->
   <div id="login-page" class="card">
     <h1>Login</h1>
     <p>Use the following account:</p>
@@ -125,7 +108,6 @@
     <button onclick="login()">Login</button>
   </div>
 
-  <!-- Main Page -->
   <div id="main-page" class="card" style="display: none;">
     <h1>Welcome!</h1>
     <input type="text" id="input-string" placeholder="Enter a string">
@@ -133,9 +115,6 @@
     <button class="btn-secondary" onclick="logout()">Logout</button>
     <h2>Submitted Strings:</h2>
     <div id="strings-list"></div>
-    <div class="footer">
-      <p>Need help? <a href="#">Contact Support</a></p>
-    </div>
   </div>
 
   <script>
@@ -167,7 +146,7 @@
 
       if (username === validUsername && password === validPassword) {
         sessionStorage.setItem("loggedIn", "true");
-        sessionStorage.setItem("strings", JSON.stringify([]));
+        sessionStorage.setItem("strings", JSON.stringify([])); 
         showMainPage();
       } else {
         alert("Invalid username or password!");
@@ -197,8 +176,8 @@
     function loadStrings() {
       const strings = JSON.parse(sessionStorage.getItem("strings")) || [];
       const listDiv = document.getElementById("strings-list");
-      listDiv.innerHTML = ""; 
-      
+      listDiv.innerHTML = "";
+
       strings.forEach((str) => {
         const para = document.createElement("p");
         para.textContent = str;
