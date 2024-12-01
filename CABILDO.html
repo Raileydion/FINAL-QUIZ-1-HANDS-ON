@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CABILDO - FINAL QUIZ 1 HANDS-ON</title>
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    /* Card Container */
+    .card {
+      background: #fff;
+      width: 400px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    /* Input Fields */
+    input[type="text"], 
+    input[type="password"] {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      transition: 0.3s ease;
+    }
+
+    input[type="text"]:focus, 
+    input[type="password"]:focus {
+      border-color: #764ba2;
+      box-shadow: 0 0 8px rgba(118, 75, 162, 0.3);
+      outline: none;
+    }
+
+    /* Buttons */
+    button {
+      background: #764ba2;
+      color: #fff;
+      border: none;
+      padding: 15px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #667eea;
+    }
+
+    /* Secondary button */
+    .btn-secondary {
+      background: #ddd;
+      color: #333;
+      margin-top: 10px;
+    }
+
+    .btn-secondary:hover {
+      background: #bbb;
+    }
+
+    /* Strings List */
+    #strings-list {
+      text-align: left;
+      margin-top: 20px;
+    }
+
+    #strings-list p {
+      font-size: 20px;
+      font-weight: bold;
+      background: #f4f4f9;
+      color: #444;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .footer a {
+      color: #764ba2;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Page -->
+  <div id="login-page" class="card">
+    <h1>Login</h1>
+    <p>Use the following account:</p>
+    <p><strong>User:</strong> "user"</p>
+    <p><strong>Password:</strong> "pass"</p>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- Main Page -->
+  <div id="main-page" class="card" style="display: none;">
+    <h1>Welcome!</h1>
+    <input type="text" id="input-string" placeholder="Enter a string">
+    <button onclick="submitString()">Submit</button>
+    <button class="btn-secondary" onclick="logout()">Logout</button>
+    <h2>Submitted Strings:</h2>
+    <div id="strings-list"></div>
+    <div class="footer">
+      <p>Need help? <a href="#">Contact Support</a></p>
+    </div>
+  </div>
+
+  <script>
+    const validUsername = "user";
+    const validPassword = "pass";
+
+    window.onload = function () {
+      if (sessionStorage.getItem("loggedIn") === "true") {
+        showMainPage();
+        loadStrings();
+      } else {
+        showLoginPage();
+      }
+    };
+
+    function showLoginPage() {
+      document.getElementById("login-page").style.display = "block";
+      document.getElementById("main-page").style.display = "none";
+    }
+
+    function showMainPage() {
+      document.getElementById("login-page").style.display = "none";
+      document.getElementById("main-page").style.display = "block";
+    }
+
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username === validUsername && password === validPassword) {
+        sessionStorage.setItem("loggedIn", "true");
+        sessionStorage.setItem("strings", JSON.stringify([]));
+        showMainPage();
+      } else {
+        alert("Invalid username or password!");
+      }
+    }
+
+    function logout() {
+      sessionStorage.clear();
+      showLoginPage();
+    }
+
+    function submitString() {
+      const input = document.getElementById("input-string").value;
+      if (input.trim() === "") {
+        alert("Please enter a valid string!");
+        return;
+      }
+
+      let strings = JSON.parse(sessionStorage.getItem("strings")) || [];
+      strings.push(input);
+      sessionStorage.setItem("strings", JSON.stringify(strings));
+
+      document.getElementById("input-string").value = "";
+      loadStrings();
+    }
+
+    function loadStrings() {
+      const strings = JSON.parse(sessionStorage.getItem("strings")) || [];
+      const listDiv = document.getElementById("strings-list");
+      listDiv.innerHTML = ""; 
+      
+      strings.forEach((str) => {
+        const para = document.createElement("p");
+        para.textContent = str;
+        listDiv.appendChild(para);
+      });
+    }
+  </script>
+</body>
+</html>
